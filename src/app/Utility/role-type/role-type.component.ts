@@ -23,7 +23,6 @@ export class RoleTypeComponent implements OnInit {
 
   ngOnInit() {
     this.roleService.getRoles().subscribe((data:Array<string>)  => {
-      console.log("roles: ",data);
       this.roles = data;
     });
     this.router.events.subscribe(event => {
@@ -35,7 +34,6 @@ export class RoleTypeComponent implements OnInit {
   }
 
     onChange(evnt) {
-    console.log(evnt.value);
     this.appService.setRole(evnt.value);
     if (evnt.value == AppConst.Roles.Admin) {
       this.router.navigate(["/admin"]);

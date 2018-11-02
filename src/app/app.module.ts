@@ -21,6 +21,8 @@ import { AdminComponent } from './Role/admin/admin.component';
 
 import { AppServiceService } from './Service/app-service.service';
 import { RoleService } from './Service/role.service';
+import { PatientService } from './Service/patient.service';
+
 import { RoleTypeComponent } from './Utility/role-type/role-type.component';
 
 @NgModule({
@@ -51,7 +53,7 @@ import { RoleTypeComponent } from './Utility/role-type/role-type.component';
     BrowserAnimationsModule,
     AppRoutingModule
   ],
-  providers: [AppServiceService, RoleService],
+  providers: [AppServiceService, RoleService, PatientService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

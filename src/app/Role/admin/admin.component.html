@@ -75,9 +75,20 @@
               <mat-hint>Note: All Fields are required!</mat-hint>
             </mat-form-field>
             <mat-form-field class="margin-right10">
+              <mat-select formControlName="gender" placeholder="Select Gender">
+                <mat-option *ngFor="let gender of genderType" [value]="gender">
+                  {{gender}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="margin-right10">
+              <input matInput type="number" placeholder="Age" formControlName="age" min="0" max="150" required>
+              <mat-hint>Note: Age should be between 0-150</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="margin-right10">
               <input matInput placeholder="Mobile Number" formControlName="mobile" required>
             </mat-form-field>
-             <mat-form-field class="margin-right10">
+            <mat-form-field class="margin-right10">
               <input matInput placeholder="Email" formControlName="email" required>
             </mat-form-field>
             <mat-form-field class="margin-right10">
@@ -96,7 +107,7 @@
             </mat-form-field>
             <div>
               <button mat-stroked-button color="primary" matStepperPrevious class="margin-right10">Back</button>
-              <button mat-raised-button color="primary" matStepperNext>Next</button>
+              <button mat-raised-button color="primary" (click)="AddPatient()" matStepperNext>Next</button>
             </div>
           </form>
         </mat-step>
