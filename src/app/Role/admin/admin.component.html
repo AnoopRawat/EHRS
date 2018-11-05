@@ -15,7 +15,7 @@
           <b>Download Report</b>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-form-field>
+      <mat-form-field class="margin-right30">
         <input matInput placeholder="Enter UserId">
       </mat-form-field>
       <button mat-raised-button color="primary">Download Report</button>
@@ -27,10 +27,10 @@
           <b>Upload Report</b>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-form-field style="width:330px;">
+      <mat-form-field class="margin-right20">
         <input matInput placeholder="Enter UserId">
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="margin-right30">
         <mat-select placeholder="Report type" (selectionChange)="onChange($event)">
           <mat-option *ngFor="let report of reportTypes" [value]="report">
             {{report}}
@@ -45,11 +45,11 @@
           <b>Add\Delete Role</b>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-form-field style="width:330px;">
+      <mat-form-field class="margin-right20">
         <input matInput placeholder="Enter Role">
       </mat-form-field>
-      <button style="margin-right:50px;" mat-raised-button color="primary">Add Role</button>
-      <mat-form-field style="width:330px;">
+      <button style="margin-right:100px;" mat-raised-button color="primary">Add Role</button>
+      <mat-form-field class="margin-right20">
         <mat-select [(value)]="selectedRole">
           <mat-option *ngFor="let role of roles" [value]="role">
             {{role}}
@@ -102,20 +102,31 @@
         <mat-step [stepControl]="PayDetailsFG">
           <form [formGroup]="PayDetailsFG">
             <ng-template matStepLabel>Payement Details</ng-template>
-            <mat-form-field>
-              <input matInput placeholder="Payement Mode" formControlName="payMode" required>
+            <mat-form-field class="margin-right10">
+              <input matInput placeholder="Card number" formControlName="cardNumber" required>
+              <mat-hint>Example: 4111111111111111</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="margin-right10">
+              <input matInput type="number" placeholder="Amount (INR)"  min="1" formControlName="amount" required>
+            </mat-form-field>
+            <mat-form-field class="margin-right10">
+              <input matInput placeholder="Card Expiry (yyyy-mm)" formControlName="cardExpiry" required>
+               <mat-hint>Example: 2020-12</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="margin-right10">
+              <input matInput placeholder="Card CVV" type="password" formControlName="cardCvv" required>
             </mat-form-field>
             <div>
               <button mat-stroked-button color="primary" matStepperPrevious class="margin-right10">Back</button>
-              <button mat-raised-button color="primary" (click)="AddPatient()" matStepperNext>Next</button>
+              <button mat-raised-button color="primary" (click)="MakePayement(stepper)">Pay and Add Patient</button>
             </div>
           </form>
         </mat-step>
         <mat-step>
           <ng-template matStepLabel>Done</ng-template>
-          You are now done.
+          Patient Added Successfully, with<b> Name : {{newPatientData?.Name}} and Id : {{newPatientData?.Id}} </b>
           <div>
-            <button mat-button (click)="stepper.reset()">Thanks!</button>
+            <button mat-raised-button color="primary" (click)="stepper.reset()">Done</button>
           </div>
         </mat-step>
       </mat-horizontal-stepper>
