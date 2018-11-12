@@ -12,7 +12,7 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <b>Download Report</b>
+          <b>Download Patient Report</b>
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-form-field class="margin-right30">
@@ -24,20 +24,27 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <b>Upload Report</b>
+          <b>Upload Patient Report</b>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-form-field class="margin-right20">
-        <input matInput placeholder="Enter UserId">
-      </mat-form-field>
-      <mat-form-field class="margin-right30">
-        <mat-select placeholder="Report type" (selectionChange)="onChange($event)">
-          <mat-option *ngFor="let report of reportTypes" [value]="report">
-            {{report}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <button mat-raised-button color="primary">Upload Report</button>
+      <form [formGroup]="uploadReportFG">
+        <mat-form-field class="margin-right20 left">
+          <input matInput placeholder="Enter UserId" formControlName="reportUserId" required>
+        </mat-form-field>
+        <mat-form-field class="margin-right30 left">
+          <mat-select placeholder="Report type" formControlName="reportType" required>
+            <mat-option *ngFor="let report of reportTypes" [value]="report">
+              {{report}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="margin-right20 left">
+          <button mat-stroked-button color="primary" (click)="fileInput.click()">Choose File</button>
+          <input hidden type="file" (change)="uploadReport($event)" #fileInput>
+        </div>
+        <label class="margin-right100">{{fileName}}</label>
+        <button mat-raised-button color="primary" (click)="submitReport()">Submit</button>
+      </form>
     </mat-expansion-panel>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
@@ -107,11 +114,11 @@
               <mat-hint>Example: 4111111111111111</mat-hint>
             </mat-form-field>
             <mat-form-field class="margin-right10">
-              <input matInput type="number" placeholder="Amount (INR)"  min="1" formControlName="amount" required>
+              <input matInput type="number" placeholder="Amount (INR)" min="1" formControlName="amount" required>
             </mat-form-field>
             <mat-form-field class="margin-right10">
               <input matInput placeholder="Card Expiry (yyyy-mm)" formControlName="cardExpiry" required>
-               <mat-hint>Example: 2020-12</mat-hint>
+              <mat-hint>Example: 2020-12</mat-hint>
             </mat-form-field>
             <mat-form-field class="margin-right10">
               <input matInput placeholder="Card CVV" type="password" formControlName="cardCvv" required>

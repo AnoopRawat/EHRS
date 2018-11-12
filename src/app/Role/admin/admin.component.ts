@@ -4,6 +4,7 @@ import { RoleService } from '../../Service/role.service';
 import { PatientService } from '../../Service/patient.service';
 import { PaymentService } from '../../Service/payment.service';
 import { AppServiceService } from '../../Service/app-service.service';
+import { ReportService } from '../../Service/report.service';
 import { MatStepper } from '@angular/material';
 
 @Component({
@@ -15,18 +16,27 @@ export class AdminComponent implements OnInit {
   reportTypes: Array<string> = ["Pathology", "Radiology", "Laboratory", "Other"];
   selectedReport: string = "Pathology";
   genderType: Array<string> = ["Male", "Female"];
+  fileName: string = "";
+  tempReader: any;
+  reportFile: File;
+  base64textStringFile: String = "";
   roles: Array<string>;
   isLinear = true;
   PatientDetailsFG: FormGroup;
+  uploadReportFG: FormGroup;
   PayDetailsFG: FormGroup;
-  newPatientData : any;
+  newPatientData: any;
   @ViewChild('stepper') private myStepper: MatStepper;
 
   constructor(private _formBuilder: FormBuilder, private roleService: RoleService, private patientService: PatientService,
-    private appService: AppServiceService, private paymentService: PaymentService, )
+    private appService: AppServiceService, private paymentService: PaymentService, private reportService: ReportService)
   { }
 
   ngOnInit() {
+    this.uploadReportFG = this._formBuilder.group({
+      reportUserId: ['', Validators.required],
+      reportType: ['', Validators.required]
+    });
     this.PatientDetailsFG = this._formBuilder.group({
       fullName: ['', Validators.required],
       age: [0, [Validators.required, Validators.min(0), Validators.max(150)]],
@@ -64,6 +74,66 @@ export class AdminComponent implements OnInit {
       this.PatientDetailsFG.reset();
       this.PayDetailsFG.reset();
     });
+  }
+
+  uploadReport(event) {
+    let fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+      let file: File = fileList[0];
+      this.reportFile = file;
+      if (file) {
+        var reader = new FileReader();
+        if (FileReader.prototype.readAsBinaryString === undefined) {
+          FileReader.prototype.readAsBinaryString = function (fileData) {
+            var binary = "";
+            var pt = this;
+            var reader = new FileReader();
+            reader.onload = function (e) {
+              var bytes = new Uint8Array(reader.result);
+              var length = bytes.byteLength;
+              for (var i = 0; i < length; i++) {
+                binary += String.fromCharCode(bytes[i]);
+              }
+              pt.content = binary;
+              pt.onload();
+            }
+
+            reader.readAsArrayBuffer(fileData);
+          }
+        }
+        this.tempReader = reader;
+        reader.onload = this._handleReaderLoaded.bind(this);
+        reader.readAsBinaryString(file);
+        this.fileName = file.name;
+      }
+    }
+  }
+
+  _handleReaderLoaded(readerEvt) {
+    if (readerEvt == undefined) {
+      var binaryString = this.tempReader.content;
+    } else {
+      var binaryString = readerEvt.target.result;
+    }
+    this.base64textStringFile = btoa(binaryString);
+  }
+
+  submitReport() {
+    var reportUserId = this.uploadReportFG.get('reportUserId').value;
+    var reportType = this.uploadReportFG.get('reportType').value;
+    if (!reportUserId) {
+      alert("Please fill user id.");
+    } else if (!reportType) {
+      alert("Please fill report type.");
+    } else {
+      let formData: FormData = new FormData();
+      formData.append('image', this.reportFile);
+      formData.append('reportUserId', reportUserId);
+      formData.append('reportType', reportType);
+      this.reportService.saveReport(formData).subscribe(
+        (data) => console.log(data),
+        (err) => console.log(err));
+    }
   }
 
   MakePayement(stepper: MatStepper) {

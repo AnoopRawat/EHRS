@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -22,6 +23,7 @@ import { AdminComponent } from './Role/admin/admin.component';
 import { AppServiceService } from './Service/app-service.service';
 import { RoleService } from './Service/role.service';
 import { PatientService } from './Service/patient.service';
+import { ReportService } from './Service/report.service';
 
 import { RoleTypeComponent } from './Utility/role-type/role-type.component';
 
@@ -40,6 +42,7 @@ import { RoleTypeComponent } from './Utility/role-type/role-type.component';
   imports: [
     BrowserModule,
     FormsModule,
+    CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
     MatButtonModule,
@@ -53,7 +56,7 @@ import { RoleTypeComponent } from './Utility/role-type/role-type.component';
     BrowserAnimationsModule,
     AppRoutingModule
   ],
-  providers: [AppServiceService, RoleService, PatientService],
+  providers: [AppServiceService, RoleService, PatientService, ReportService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
