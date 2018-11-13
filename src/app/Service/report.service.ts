@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppConst } from '../AppConst';
 
 @Injectable({
@@ -11,5 +11,9 @@ export class ReportService {
 
   saveReport(reportData: any) {
     return this.httpClient.post(AppConst.API_ENDPOINT + "saveReport", reportData);
+  }
+
+  downloadReport(reportUserId) {
+    return this.httpClient.get(AppConst.API_ENDPOINT + 'getReports/' + reportUserId, { responseType: 'blob' });
   }
 }

@@ -24,6 +24,7 @@ export class AdminComponent implements OnInit {
   isLinear = true;
   PatientDetailsFG: FormGroup;
   uploadReportFG: FormGroup;
+  downloadReportFG: FormGroup;
   PayDetailsFG: FormGroup;
   newPatientData: any;
   @ViewChild('stepper') private myStepper: MatStepper;
@@ -33,6 +34,9 @@ export class AdminComponent implements OnInit {
   { }
 
   ngOnInit() {
+    this.downloadReportFG = this._formBuilder.group({
+      dwnReportUserid: ['', Validators.required]
+    });
     this.uploadReportFG = this._formBuilder.group({
       reportUserId: ['', Validators.required],
       reportType: ['', Validators.required]
@@ -131,8 +135,23 @@ export class AdminComponent implements OnInit {
       formData.append('reportUserId', reportUserId);
       formData.append('reportType', reportType);
       this.reportService.saveReport(formData).subscribe(
-        (data) => console.log(data),
+        (data) => alert("Report uploaded successfully."),
         (err) => console.log(err));
+    }
+  }
+
+  downloadReport() {
+    var reportUserId = this.downloadReportFG.get('dwnReportUserid').value;
+    if (!reportUserId) {
+      alert("Please fill user id.");
+    } else {
+      this.reportService.downloadReport(reportUserId).subscribe(
+        (data:any) => {
+          var objectUrl = URL.createObjectURL(data);
+          window.open(objectUrl);
+        },
+        (error) => console.log(error)
+      )
     }
   }
 

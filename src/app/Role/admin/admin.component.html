@@ -15,10 +15,12 @@
           <b>Download Patient Report</b>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-form-field class="margin-right30">
-        <input matInput placeholder="Enter UserId">
-      </mat-form-field>
-      <button mat-raised-button color="primary">Download Report</button>
+      <form [formGroup]="downloadReportFG">
+        <mat-form-field class="margin-right30">
+          <input matInput placeholder="Enter UserId" formControlName="dwnReportUserid" >
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="downloadReport()">Download Report</button>
+      </form>
     </mat-expansion-panel>
 
     <mat-expansion-panel>
