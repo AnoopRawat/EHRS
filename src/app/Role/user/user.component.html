@@ -1,12 +1,14 @@
 <form class="example-form">
-    <mat-form-field class="example-full-width">
-        <input matInput placeholder="Enter UserId">
-        <i matSuffix class="material-icons">account_circle</i>
-    </mat-form-field>
+    <form [formGroup]="downloadReportFG">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Enter UserId" formControlName="dwnReportUserid" required>
+            <i matSuffix class="material-icons">account_circle</i>
+        </mat-form-field>
 
-    <mat-form-field class="example-full-width">
-        <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'">
-        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-    </mat-form-field>
-    <button mat-raised-button color="primary">Download Report</button>
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" formControlName="dwnReportUserPwd" required>
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="downloadReport()">Download Report</button>
+    </form>
 </form>

@@ -147,6 +147,7 @@ export class AdminComponent implements OnInit {
     } else {
       this.reportService.downloadReport(reportUserId).subscribe(
         (data:any) => {
+          console.log(data);
           var objectUrl = URL.createObjectURL(data);
           window.open(objectUrl);
         },

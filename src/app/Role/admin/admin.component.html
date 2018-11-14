@@ -1,13 +1,4 @@
 <div>
-  <!--<mat-list>
-  <mat-list-item><button mat-raised-button color="primary">Download Report</button></mat-list-item>
-  <mat-divider></mat-divider>
-  <mat-list-item><button mat-raised-button color="primary">Upload Report</button></mat-list-item>
-  <mat-divider></mat-divider>
-  <mat-list-item><button mat-raised-button color="primary">Add New Role</button></mat-list-item>
-  <mat-divider></mat-divider>
-  <mat-list-item><button mat-raised-button color="warn">Delete Role</button></mat-list-item>
-</mat-list>-->
   <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
@@ -17,7 +8,7 @@
       </mat-expansion-panel-header>
       <form [formGroup]="downloadReportFG">
         <mat-form-field class="margin-right30">
-          <input matInput placeholder="Enter UserId" formControlName="dwnReportUserid" >
+          <input matInput placeholder="Enter UserId" formControlName="dwnReportUserid" required>
         </mat-form-field>
         <button mat-raised-button color="primary" (click)="downloadReport()">Download Report</button>
       </form>
@@ -125,6 +116,7 @@
             <mat-form-field class="margin-right10">
               <input matInput placeholder="Card CVV" type="password" formControlName="cardCvv" required>
             </mat-form-field>
+            <img src="../../../assets/Image/paymentmodes.jpg" width="100px" height="35px">
             <div>
               <button mat-stroked-button color="primary" matStepperPrevious class="margin-right10">Back</button>
               <button mat-raised-button color="primary" (click)="MakePayement(stepper)">Pay and Add Patient</button>
@@ -133,7 +125,8 @@
         </mat-step>
         <mat-step>
           <ng-template matStepLabel>Done</ng-template>
-          Patient Added Successfully, with<b> Name : {{newPatientData?.Name}} and Id : {{newPatientData?.Id}} </b>
+          Patient Added Successfully, with<b> Name : {{newPatientData?.Name}} and PatientId : {{newPatientData?.Id}} 
+            <br> Please note PatientId - {{newPatientData?.Id}} for future references. </b>
           <div>
             <button mat-raised-button color="primary" (click)="stepper.reset()">Done</button>
           </div>
